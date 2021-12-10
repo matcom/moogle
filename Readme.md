@@ -115,7 +115,7 @@ dotnet watch run --project MoogleServer
 
 ## Sobre la ingeniería de software
 
-Por supuesto, queremos que este proyecto sea lo más extensible y mantenible posible, incluso por personas con inteligencia nivel normal (no como tú); así que agradeceríamos que tengas cuidado con la organización, los nombres de los métodos y clases, los miembros que deben ser públicos y privados, y sobre todo, poner muchos comentarios que expliquen por qué haces cada cosa. Sino, luego vendrá algún pobre infeliz (que no será de MatCom) y no sabrá por donde entrarle al proyecto.
+Por supuesto, queremos que este proyecto sea lo más extensible y mantenible posible, incluso por personas con inteligencia nivel normal, no solo superdotados; así que agradeceríamos que tengas cuidado con la organización, los nombres de los métodos y clases, los miembros que deben ser públicos y privados, y sobre todo, poner muchos comentarios que expliquen por qué haces cada cosa. Sino, luego vendrá algún pobre infeliz (que no será de MatCom) y no sabrá por donde entrarle al proyecto.
 
 ## Palabras finales
 
