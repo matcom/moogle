@@ -7,9 +7,9 @@ public static class Moogle
         // Modifique este método para responder a la búsqueda
 
         SearchItem[] items = new SearchItem[3] {
-            new SearchItem("Hello World", "Lorem ipsum dolor sit amet", 0.9f),
-            new SearchItem("Hello World", "Lorem ipsum dolor sit amet", 0.5f),
-            new SearchItem("Hello World", "Lorem ipsum dolor sit amet", 0.1f),
+            new("Hello World", "Lorem ipsum dolor sit amet", 0.9f),
+            new("Hello World", "Lorem ipsum dolor sit amet", 0.5f),
+            new("Hello World", "Lorem ipsum dolor sit amet", 0.1f),
         };
 
         return new SearchResult(items, query);
