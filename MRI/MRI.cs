@@ -8,5 +8,5 @@ public abstract class MRI {
 	protected MRI(Corpus.Corpus corpus) {
 		Corpus = corpus;
 	}
-	public abstract IEnumerable<(string Key, float)> Query(Query query);
+	public abstract IEnumerable<(string document, float score)> Query(Query query);
 }

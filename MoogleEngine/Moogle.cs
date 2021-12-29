@@ -1,10 +1,11 @@
 ﻿using Corpus;
 using MRI;
+using MRI.VectorMRI;
 
 namespace MoogleEngine;
 
 public static class Moogle {
-	private static VectorMRI _mri = new(new TestCorpus("../Content/"));
+	private static VectorMri _mri = new(new TestCorpus("../Content/"));
 	public static SearchResult Query(string query) {
 		var b = _mri.Query(new Query(query));
 		var items = new List<SearchItem>();
