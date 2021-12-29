@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Corpus\Corpus.csproj" />
+    <ProjectReference Include="..\MRI\MRI.csproj" />
+  </ItemGroup>
+
 </Project>
