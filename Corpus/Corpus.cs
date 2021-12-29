@@ -3,15 +3,18 @@
 namespace Corpus;
 
 public abstract class Corpus {
-	protected readonly string Path;
-	public readonly Dictionary<string, Dictionary<string, int>> Documents;
-	public readonly Dictionary<string, int> Vocabulary;
-	protected Corpus(string path) {
-		Path = path;
-		Documents = new Dictionary<string, Dictionary<string, int>>();
-		Vocabulary = new Dictionary<string, int>();
-		ProcessCorpus();
+	public int WordsCount;
+	public int DocsCount;
+
+	protected Corpus() {
 	}
 
+	public abstract int this[string document, string word] { get; protected set; }
+	public abstract int this[string word] { get; }
 	protected abstract void ProcessCorpus();
+
+	public abstract int MostRepeatedWordOccurrences(string document);
+
+	public abstract IEnumerable<string> Words();
+	public abstract IEnumerable<string> Documents();
 }
