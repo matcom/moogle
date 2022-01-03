@@ -15,7 +15,13 @@
 }
 
 <ul class="results">
-@foreach (var item in result.Items()) {
+    @if (!SearchMethod.first_search &&result.Items().Count() == 0)
+    {
+        <div class="item">
+            <h2><b>No results obtained</b></h2>
+        </div>
+    }
+    @foreach (var item in result.Items()) {
     <li>
         <div class="item">
             <p class="title">@item.Title</p>
@@ -30,6 +36,13 @@
     private SearchResult result = new SearchResult();
 
     private void RunQuery() {
+        if(SearchMethod.first_search)
+        {
+            SearchMethod.thread_start.Join();
+            SearchMethod.first_search= false;
+        }
+        
+        Console.WriteLine("Calculating search");
         result = Moogle.Query(query);
     }
 }
