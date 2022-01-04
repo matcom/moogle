@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 
 namespace MoogleEngine
@@ -37,7 +33,7 @@ namespace MoogleEngine
 
         public static List<string> PreProcessingText(List<string> content)
         {
-            
+
             for (int j = 0; j < content.Count; j++)
             {
                 content[j] = Regex.Replace(content[j].Normalize(NormalizationForm.FormD), @"[^a-zA-z0-9 ]+", "");
