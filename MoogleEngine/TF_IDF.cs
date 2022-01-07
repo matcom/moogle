@@ -5,6 +5,8 @@ namespace MoogleEngine
 {
     public static class TF_IDF
     {
+        public static List<List<string>> Content = new();
+
         #region PreProcessing
         /// <summary>
         /// Get the name of the files without a full path
@@ -15,8 +17,7 @@ namespace MoogleEngine
         {
             Directory.SetCurrentDirectory(Directory.GetParent(Directory.GetCurrentDirectory()).FullName);
             string target = Directory.GetCurrentDirectory() + "\\" + directory;
-            Directory.SetCurrentDirectory(target);
-
+            Directory.SetCurrentDirectory(target);  
 
             string[] files = Directory.GetFiles(Directory.GetCurrentDirectory());
             string[] filesWithoutPath = new string[files.Length];
@@ -79,9 +80,13 @@ namespace MoogleEngine
                 wordsInFiles.Add(new Dictionary<string, int>());
                 wordsInTitles.Add(new Dictionary<string, int>());
                 StreamReader reader = new StreamReader(filesName[i]);
-                List<string> content = reader.ReadToEnd().ToLower().Split().ToList<string>();
+                Content.Add(reader.ReadToEnd().ToLower().Split().ToList<string>());
+                List<string> content = new List<string>();
+                string[] copy = new string[Content[i].Count];
+                Content[i].CopyTo(copy);
+                content.AddRange(copy);
                 PreProcessingText(content);
-                Stem(content);
+                //Stem(content);
                 foreach (var word in content)
                 {
                     if (wordsInFiles[i].ContainsKey(word)) wordsInFiles[i][word]++;

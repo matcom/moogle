@@ -25,6 +25,7 @@ public static class SearchMethod
     #region MakeQuery
     public static string[] MakeQuery(string query, int k, out double[] score)
     {
+        query = ChangeQuery(query);
         var query_array = GetQueryArray(query);
         var coisine_sim = GetCoisineSim(query_array);
         double[] result = coisine_sim.Values.ToArray();
@@ -65,36 +66,6 @@ public static class SearchMethod
 
         return TF_IDF.CreateMatrix(query_tf_idf, allwords)[0];
     }
-    #endregion
-
-
-    #region Coisine_sim
-    private static double Magnitude(Vector v1)
-    {
-        return Math.Sqrt(v1 * v1);
-    }
-    public static double CoisineSimilarity(Vector general, Vector query)
-    {
-        if ((Magnitude(general) * Magnitude(query)) == 0)
-            return 0;
-        return (general * query) / (Magnitude(general) * Magnitude(query));
-    }
-    private static Dictionary<int, double> GetCoisineSim(double[] query_array)
-    {
-        List<Vector> document_vectors = new List<Vector>();
-        foreach (var array in documents_matrix)
-        {
-            document_vectors.Add(new Vector(array));
-        }
-        Vector query_vector = new(query_array);
-        Dictionary<int, double> coisine_sim = new();
-        for (int i = 0; i < document_vectors.Count; i++)
-        {
-            coisine_sim.Add(i, CoisineSimilarity(document_vectors[i], query_vector));
-        }
-        return coisine_sim;
-    }
-    #endregion
 
 
     public static string ChangeQuery(string query)
@@ -174,7 +145,8 @@ public static class SearchMethod
             }
             return results[0];
         }
-        return "";
+        else
+            return query;
     }
     private static int Levenshtein(string s1, string s2)
     {
@@ -201,6 +173,37 @@ public static class SearchMethod
         return m[n1, n2];
     }
 
+    #endregion
+
+
+    #region Coisine_sim
+    private static double Magnitude(Vector v1)
+    {
+        return Math.Sqrt(v1 * v1);
+    }
+    public static double CoisineSimilarity(Vector general, Vector query)
+    {
+        if ((Magnitude(general) * Magnitude(query)) == 0)
+            return 0;
+        return (general * query) / (Magnitude(general) * Magnitude(query));
+    }
+    private static Dictionary<int, double> GetCoisineSim(double[] query_array)
+    {
+        List<Vector> document_vectors = new List<Vector>();
+        foreach (var array in documents_matrix)
+        {
+            document_vectors.Add(new Vector(array));
+        }
+        Vector query_vector = new(query_array);
+        Dictionary<int, double> coisine_sim = new();
+        for (int i = 0; i < document_vectors.Count; i++)
+        {
+            coisine_sim.Add(i, CoisineSimilarity(document_vectors[i], query_vector));
+        }
+        return coisine_sim;
+    }
+    #endregion
+
     public static void SearchSnipped(string[] query, string[] files)
     {
         int[] files_index = new int[files.Length];
@@ -209,40 +212,33 @@ public static class SearchMethod
             for (int j = 0; j < fileNames.Length; j++)
             {
                 if (files[i] == fileNames[j])
-                    files_index[i] = j; break;
+                {
+                    files_index[i] = j;
+                    break;
+                }
             }
         }
 
         List<List<string>> files_content = new();
-        for (int i = 0; i < files.Length; i++)
+        for (int i = 0; i < TF_IDF.Content.Count; i++)
         {
-            StreamReader reader = new StreamReader(fileNames[i]);
-            List<string> content = reader.ReadToEnd().ToLower().Split().ToList<string>();
-            files_content.Add(content);
+            files_content.Add(TF_IDF.Content[i]);
         }
-        string[] snipped = new string[files_index.Length];
-        for (int i = 0; i < snipped.Length; i++)
+
+        List<List<int>> index_of = new();
+        for (int i = 0; i < files_index.Length; i++)
         {
-            List<List<int>> index_of = new();
-            for (int j = 0; j < files_content[i].Count; j++)
+            index_of.Add(new());
+            for (int j = 0; j < query.Length; j++)
             {
-                for (int k = 0; k < query.Length; k++)
+                index_of[j].Add(new());
+                for (int k = 0; k < files_content.Count; k++)
                 {
-                    if (files_content[i][j] == query[k])
-                    {
-                        try
-                        {
-                            index_of[k].Add(j);
-                        }
-                        catch (Exception)
-                        {
-                            index_of.Add(new());
-                            index_of[k].Add(j);
-                        }
-                    }
+                    index_of[j][k] = files_content[files_index[i]].IndexOf(query[j]);
                 }
             }
         }
+        string[] snipped = new string[files_index.Length];
     }
 
 }

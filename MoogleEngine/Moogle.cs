@@ -3,26 +3,38 @@
 
 public static class Moogle
 {
+    public enum Lenguaje
+    {
+        Español,
+        Inglés
+    }
     public static SearchResult Query(string query)
     {
-        // Modifique este método para responder a la búsqueda
         Console.WriteLine("Call");
         double[] score;
         int top_results = 5;
+        Lenguaje lenguaje = Lenguaje.Inglés;
         var results = SearchMethod.MakeQuery(query, top_results, out score);
 
-        if((results.Length/top_results*100)<40)
+        if (((results.Length / top_results) * 100) <= 40)
         {
-            //Implementando un stemmin de ingles
             var stemm_query = query.ToLower().Split().ToList();
-            TF_IDF.Stem(stemm_query);
+            //Implementando un stemmin de ingles
+            if (lenguaje == Lenguaje.Inglés)
+            {
+                TF_IDF.Stem(stemm_query);
+            }
+            if (lenguaje == Lenguaje.Español)
+            {
+
+            }
             string s = "";
             foreach (var word in stemm_query)
             {
                 s += word + " ";
             }
             query = s;
-            results = SearchMethod.MakeQuery(query,top_results, out score);
+            results = SearchMethod.MakeQuery(query, top_results, out score);
         }
         List<SearchItem> items = new List<SearchItem>();
         for (int i = 0; i < results.Length; i++)
