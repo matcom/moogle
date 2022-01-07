@@ -6,9 +6,9 @@ namespace Corpus;
 public class TestCorpus : Corpus {
 	private readonly string _path;
 	private readonly Dictionary<string, (int totalOcurrencies, Dictionary<string, int>)> _vocabulary;
-	private Dictionary<string, int> _mostRepeatedWordOccurrences;
+	private readonly Dictionary<string, int> _mostRepeatedWordOccurrences;
 
-	public TestCorpus(string path) : base() {
+	public TestCorpus(string path) {
 		_path = path;
 		_mostRepeatedWordOccurrences = new Dictionary<string, int>();
 		_vocabulary = new Dictionary<string, (int totalOcurrencies, Dictionary<string, int>)>();
@@ -61,13 +61,13 @@ public class TestCorpus : Corpus {
 		var first = 0;
 		var last = word.Length;
 		for (var i = 0; i < word.Length; i++) {
-			if (char.IsPunctuation(word[i])) continue;
+			if (char.IsPunctuation(word[i]) || word[i] == '^') continue;
 			first = i;
 			break;
 		}
 
 		for (var i = word.Length - 1; i >= 0; i--) {
-			if (char.IsPunctuation(word[i])) continue;
+			if (char.IsPunctuation(word[i]) || word[i] == '^') continue;
 			last = i + 1;
 			break;
 		}

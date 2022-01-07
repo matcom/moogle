@@ -6,7 +6,11 @@ public class VectorMRI : MRI {
 	public VectorMRI(Corpus.Corpus corpus) : base(corpus) { }
 
 	public override IEnumerable<(string Key, float)> Query(Query query) {
-		return Corpus.Documents().Select(document => (document, Similarity(query, document))).ToList().OrderByDescending(t=>t.Item2);
+		// foreach (var document in Corpus.Documents()) {
+		// 	var returnable = query.Inclusions().All(word => Corpus[document, word] != 0) &&
+		// 	                 query.Exclusions().All(word => Corpus[document, word] == 0);
+		// }
+		return Corpus.Documents().Where(document=>query.Inclusions().All(word => Corpus[document, word] != 0) && query.Exclusions().All(word => Corpus[document, word] == 0)).Select(document => (document, Similarity(query, document))).ToList().OrderByDescending(t=>t.Item2);
 	}
 
 	/// <summary>
