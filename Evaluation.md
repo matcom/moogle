@@ -92,7 +92,7 @@ Además, el tribunal documentará cualquier comentario o nota de interés sobre 
 
 ## Evaluación final
 
-El tribunal otorgará una evaluación general de *(I)nsuficiente*, *(S)atisfactorio*, o *(E)xcelente* para cada una de las tres partes de la evaluación, la implementación, el informe escrito y la exposición.
+El tribunal otorgará una evaluación general de *(I)nsuficiente*, *(S)atisfactorio*, o *(E)xcelente* para cada una de las tres partes de la evaluación, la implementación, el informe escrito y la exposición. Esta evaluación no será decidida de immediato, sino posteriormente a las exposiciones de todos los estudiantes.
 
 Se considerará *insuficiente* si existe algún criterio que no haya sido evaluado al menos de *satisfactorio*. Se considerará *excelente* si una abrumadora mayoría de los criterios son evaluados de *excelente* (no existe un porciento específico de criterios, queda a decisión del tribunal). En cualquier otro caso, la evaluación será *satisfactoria*.
 
