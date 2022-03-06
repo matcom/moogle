@@ -22,7 +22,7 @@ Criterios a tener en cuenta sobre las funcionalidades implementadas:
 
 - 1.a) Representación implícita o explícita de los documentos y consultas como conjuntos de palabras que permita identificar eficientemente si un término aparece en un documento (_eficientemente_ significa con un costo sublineal).
 
-- 1.b) Implementación de un mecanismo para computar dado un documento y una consulta y computar un valor de ranking.
+- 1.b) Implementación de un mecanismo para computar un valor de ranking dados un documento y una consulta.
 
 - 1.c) Diseño de una función de ranking que represente alguna noción de relevancia sensata (e.j., TF-IDF).
 
