@@ -2,7 +2,9 @@
 
 ![](moogle.png)
 
-> Proyecto de Programación I. Facultad de Matemática y Computación. Universidad de La Habana. Curso 2021.
+> Proyecto de Programación I
+> Facultad de Matemática y Computación - Universidad de La Habana
+> Cursos 2021, 2022.
 
 Moogle! es una aplicación *totalmente original* cuyo propósito es buscar inteligentemente un texto en un conjunto de documentos.
 
