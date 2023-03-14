@@ -49,8 +49,6 @@ Cada `SearchItem` recibe 3 argumentos en su constructor: `title`, `snippet` y `s
 
 > ⚠️ Por supuesto, debes devolver los `items` ordenados de mayor a menor por este valor de `score`!
 
-El parámetro `suggestion` de la clase `SearchResult` es para darle una sugerencia al usuario cuando su búsqueda da muy pocos resultados (tú debes decidir qué serían pocos resultados en este contexto). Esta sugerencia debe ser algo similar a la consulta del usuario pero que sí exista, de forma que si el usuario se equivoca, por ejemplo, escribiendo `"reculsibidá"`, y no aparece (evidentemente) ningún documento con ese contenido, le podamos sugerir la palabra `"recursividad"`.
-
 ## Sobre la búsqueda
 
 Queremos que la búsqueda sea lo más inteligente posible, por ese motivo no podemos limitarnos a los documentos donde aparece exactamente la frase introducida por el usuario. Aquí van algunos requisitos que debe cumplir esta búsqueda, pero eres libre de adicionar cualquier otra funcionalidad que ayude a mejorar y hacer más inteligente la búsqueda.
@@ -62,22 +60,6 @@ Queremos que la búsqueda sea lo más inteligente posible, por ese motivo no pod
 - Si en diferentes documentos aparecen la misma cantidad de palabras de la consulta, (por ejemplo, 2 de las 3 palabras de la consulta `"algoritmos de ordenación"`), pero uno de ellos contiene una palabra más rara (por ejemplo, `"ordenación"` es más rara que `"algoritmos"` porque aparece en menos documentos), el documento con palabras más raras debe tener un `score` más alto, porque es una respuesta más específica.
 - De la misma forma, si un documento tiene más términos de la consulta que otro, en general debería tener un `score` más alto (a menos que sean términos menos relevantes).
 - Algunas palabras excesivamente comunes como las preposiciones, conjunciones, etc., deberían ser ignoradas por completo ya que aparecerán en la inmensa mayoría de los documentos (esto queremos que se haga de forma automática, o sea, que no haya una lista cableada de palabras a ignorar, sino que se computen de los documentos).
-
-### Operadores de búsqueda
-
-Con estas ideas ya podemos hacer algo, pero para mejorar la búsqueda aún más queremos adicionar operadores a la consulta que permitan darle más control al usuario. Por ejemplo:
-
-- Un símbolo `!` delante de una palabra (e.j., `"algoritmos de búsqueda !ordenación"`) indica que esa palabra **no debe aparecer** en ningún documento que sea devuelto.
-- Un símbolo `^` delante de una palabra (e.j., `"algoritmos de ^ordenación"`) indica que esa palabra **tiene que aparecer** en cualquier documento que sea devuelto.
-- Un símbolo `~` entre dos o más términos indica que esos términos deben **aparecer cerca**, o sea, que mientras más cercanos estén en el documento mayor será la relevancia. Por ejemplo, para la búsqueda `"algoritmos ~ ordenación"`, mientras más cerca están las palabras `"algoritmo"` y `"ordenación"`, más alto debe ser el `score` de ese documento.
-- Cualquier cantidad de símbolos `*` delante de un término indican que ese término es más importante, por lo que su influencia en el `score` debe ser mayor que la tendría normalmente (este efecto será acumulativo por cada `*`, por ejemplo `"algoritmos de **ordenación"` indica que la palabra `"ordenación"` tiene dos veces más prioridad que `"algoritmos"`).
-
-### Ideas extras
-
-Nuestros usuarios son muy exigentes, pero no podemos darles todo. Algunas ideas que no creemos que sean estrictamente necesarias pero que harían nuestra aplicación mucho mejor son:
-
-- Si las palabras exactas no aparecen, pero aparecen palabras derivadas de la misma raíz, también queremos devolver esos documentos (por ejemplo, si no está `"ordenación"` pero estar `"ordenados"`, ese documento puede devolverse pero con un `score` menor).
-- Si aparecen palabras relacionadas aunque no tengan la misma raíz (por ejemplo si la búsqueda es `"computadora"` y el documento tiene `"ordenador"`), también queremos devolver esos documentos pero con menor `score` que si apareciera la palabra exacta o una de la misma raíz.
 
 ### Evaluación del `score`
 
@@ -118,6 +100,27 @@ dotnet watch run --project MoogleServer
 ## Sobre la ingeniería de software
 
 Por supuesto, queremos que este proyecto sea lo más extensible y mantenible posible, incluso por personas con inteligencia nivel normal, no solo superdotados; así que agradeceríamos que tengas cuidado con la organización, los nombres de los métodos y clases, los miembros que deben ser públicos y privados, y sobre todo, poner muchos comentarios que expliquen por qué haces cada cosa. Sino, luego vendrá algún pobre infeliz (que no será de MatCom) y no sabrá por donde entrarle al proyecto.
+
+## Funcionalidades Opcionales
+
+Si implementas todo lo anterior, ya tendremos un producto mínimo viable. Vaya, digamos un 3. Pero para de verdad llevarnos todo el mercado, podemos mejorar la búsqueda notablemente si incluímos algunas de las siguientes funcionalidades opcionales (y tú te llevarás una bonificación, por supuesto).
+
+Por ejemplo, podemos introducir operadores en las consultas, tales cómo:
+
+- Un símbolo `!` delante de una palabra (e.j., `"algoritmos de búsqueda !ordenación"`) indica que esa palabra **no debe aparecer** en ningún documento que sea devuelto.
+- Un símbolo `^` delante de una palabra (e.j., `"algoritmos de ^ordenación"`) indica que esa palabra **tiene que aparecer** en cualquier documento que sea devuelto.
+- Un símbolo `~` entre dos o más términos indica que esos términos deben **aparecer cerca**, o sea, que mientras más cercanos estén en el documento mayor será la relevancia. Por ejemplo, para la búsqueda `"algoritmos ~ ordenación"`, mientras más cerca están las palabras `"algoritmo"` y `"ordenación"`, más alto debe ser el `score` de ese documento.
+- Cualquier cantidad de símbolos `*` delante de un término indican que ese término es más importante, por lo que su influencia en el `score` debe ser mayor que la tendría normalmente (este efecto será acumulativo por cada `*`, por ejemplo `"algoritmos de **ordenación"` indica que la palabra `"ordenación"` tiene dos veces más prioridad que `"algoritmos"`).
+- U otro cualquiera que se te ocurra...
+
+Además, podemos tener en cuenta otras mejoras como las siguientes:
+
+- Si las palabras exactas no aparecen, pero aparecen palabras derivadas de la misma raíz, también queremos devolver esos documentos (por ejemplo, si no está `"ordenación"` pero estar `"ordenados"`, ese documento puede devolverse pero con un `score` menor).
+- Si aparecen palabras relacionadas aunque no tengan la misma raíz (por ejemplo si la búsqueda es `"computadora"` y el documento tiene `"ordenador"`), también queremos devolver esos documentos pero con menor `score` que si apareciera la palabra exacta o una de la misma raíz.
+
+Otra idea interesante es dar sugerencias cuando la búsqueda genere muy pocos resultados. Para esto puedes usar el parámetro `suggestion` de la clase `SearchResult` (tú debes decidir qué serían pocos resultados en este contexto). Esta sugerencia debe ser algo similar a la consulta del usuario pero que sí exista, de forma que si el usuario se equivoca, por ejemplo, escribiendo `"reculsibidá"`, y no aparece (evidentemente) ningún documento con ese contenido, le podamos sugerir la palabra `"recursividad"`.
+
+Y por supuesto, cualquier otra idea que mejore la búsqueda, la haga más eficiente, más expresiva, o más útil, también es bienvenida.
 
 ## Palabras finales
 
